@@ -1,5 +1,6 @@
 # cse210-student-template
 This is Gaby Ugarte code for students in CSE 210.
+language used: C#
 
 This repository contains the starter code for many different projects. They are arranged as follows:
 
