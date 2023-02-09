@@ -6,7 +6,7 @@ namespace ScriptureHider
     {
         private string reference;
         private string text;
-
+//constructor
         public Scripture(string reference, string text)
         {
             this.reference = reference;
