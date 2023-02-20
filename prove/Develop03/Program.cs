@@ -1,25 +1,31 @@
 using System;
 
-namespace ScriptureHider
+class Program
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            Scripture scripture = new Scripture("John 3:16", "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life.");
-            string input;
+    static void Main(string[] args)
+    {   //DECLARE VARIABLES
+        string _menuOption;
+       // create the object Scripture
+        Scripture script = new Scripture(); 
+        // displaying the menu from the object
+        _menuOption = Menu();
+        //Validate option is correct
+        while ( _menuOption != "quit" && script.getIsAllHidden() != true){
+            script.Execute();
+            _menuOption = Menu();
+        }
+        //if the option was quit then exits
+        ProgramTermination();
+        //repeating menu
+        static string Menu(){
+            string menuOption;
+            Console.WriteLine("Press enter to continue or type 'quit' to finish:");
+            menuOption = Console.ReadLine();
+            return menuOption;
+        }
 
-            do
-            {
-                Screen.ClearScreen();
-                Screen.DisplayScripture(scripture);
-                Console.WriteLine("Press Enter to hide more words, or type 'quit' to exit:");
-                input = Console.ReadLine();
-                if (input != "quit")
-                {
-                    WordHider.HideWords(scripture);
-                }
-            } while (input != "quit" && !WordHider.AllWordsHidden(scripture));
+        static void ProgramTermination(){
+            System.Environment.Exit(1);
         }
     }
 }
