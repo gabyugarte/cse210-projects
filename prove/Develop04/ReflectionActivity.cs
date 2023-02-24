@@ -1,44 +1,71 @@
-using System;
+public class ReflectionActivity : Activity{
 
-namespace MindfulActivities
-{
-    public class ReflectionActivity : Activity
-    {
-        public List<string> ReflectionPrompts { get; set; }
-        public List<string> ReflectionQuestions { get; set; }
-
-        public ReflectionActivity(TimeSpan duration, string startingMessage, string endingMessage, List<string> reflectionPrompts, List<string> reflectionQuestions) : base(duration, startingMessage, endingMessage)
-        {
-            ReflectionPrompts = reflectionPrompts;
-            ReflectionQuestions = reflectionQuestions;
-        }
-
-        public override void Start()
-        {
-            Console.WriteLine(base.StartingMessage);
-
-            var prompt = GetRandomPrompt();
-            Console.WriteLine(prompt);
-
-            var answer = Console.ReadLine();
-            Console.WriteLine($"You said: {answer}");
-
-            var question = GetRandomQuestion();
-            Console.WriteLine(question);
-        }
-
-        private string GetRandomPrompt()
-        {
-            var rand = new Random();
-            var index = rand.Next(0, ReflectionPrompts.Count);
-            return ReflectionPrompts[index];
-        }
-
-        private string GetRandomQuestion()
-        {
-            var rand = new Random();
-            var index = rand.Next(0, ReflectionQuestions.Count);
-            return ReflectionQuestions[index];
+    private string _prompt;
+    private string _question1;
+    private string _question2;
+    //CONSTRUCTOR    
+    public ReflectionActivity(int activity, string description) : base(activity, description){
+        Tools ini = new Tools();
+        SetPrompt(ini.Randomizer(1));
+        SetQuestions(1,ini.Randomizer(2));
+        SetQuestions(2,ini.Randomizer(2));
+    }
+    //SETTERS
+    private void SetPrompt(string prompt){
+        _prompt = prompt;
+    }
+    private void SetQuestions(int number,string question){
+        if (number == 1){
+            _question1 = question;
+        }else{
+            _question2 = question;
         }
     }
+    //GETTERS
+    private string GetPrompt(){
+        return _prompt;
+    }
+    private string GetQuestions(int number){
+        if (number == 1){
+            return _question1;
+        }else{
+            return _question2;
+        }
+    }
+     //TO DISPLAY THE FIRST PROMPT
+    private void DisplayPrompt(){
+        Console.WriteLine("Consider the following prompt:");
+        Console.WriteLine($"--- {GetPrompt()} ---");
+        Console.WriteLine("When you have something in mind, press enter to continue");
+        //TO READ THE ENTER KEY INPUT
+        ConsoleKeyInfo keyInfo = Console.ReadKey();
+        while(keyInfo.Key != ConsoleKey.Enter){
+            keyInfo = Console.ReadKey();
+        }
+        Console.Clear();
+    }
+    //TO DISPLAY THE QUESTIONS, SINCE ITS 2 QUESTIONS I HAVE A FOR TO LOOP TWICE
+    private void DisplayQuestion(){
+        Tools ini = new Tools();
+        for(int x = 1; x <= 2; x++){
+            Console.WriteLine($"> {GetQuestions(x)}");
+            Console.WriteLine();
+            int i = GetDuration()/2;
+            ini.Loader(i);
+            Console.WriteLine();
+        }
+    }
+    //COMPILER
+    public void Execute(){
+        //DISPLAY INITIAL MESSAGE
+        DisplayInitialMessage(0);
+        //DISPLAYING FIRST PROMPT
+        DisplayPrompt();
+        //DISPLAYING QUESTIONS
+        DisplayQuestion();
+        //displayFinalMessage FINAL MESSAGE
+        DisplayFinalMessage();
+    }
+
+
 }
